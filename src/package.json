@@ -1,0 +1,6 @@
+{
+  "main": "index.js",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}

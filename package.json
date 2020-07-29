@@ -1,0 +1,40 @@
+{
+  "name": "@grainlogic/stack",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "Artyom Kayun",
+    "email": "kayun.artem@gmail.com"
+  },
+  "description": "Implementation of stack data structure",
+  "keywords": [
+    "stack",
+    "data-structure",
+    "typescript-library",
+    "javascript-library"
+  ],
+  "scripts": {
+    "start": "tsc --incremental --watch",
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "postbuild": "ts-node ./build.ts && cp LICENSE README.md dist",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "mocha --require ts-node/register --config .config/.mocharc.js --project tsconfig.json --watch src/**/*.spec.ts"
+  },
+  "devDependencies": {
+    "@types/chai": "4.2.12",
+    "@types/mocha": "8.0.0",
+    "@types/node": "10.17.8",
+    "chai": "4.2.0",
+    "copy": "0.3.2",
+    "mocha": "8.0.1",
+    "rimraf": "3.0.0",
+    "ts-node": "^8.10.2",
+    "tslint": "6.1.2",
+    "tslint-config-standard": "9.0.0",
+    "typescript": "3.9.2"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}
