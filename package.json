@@ -9,10 +9,22 @@
   "description": "Implementation of stack data structure",
   "keywords": [
     "stack",
+    "lifo",
     "data-structure",
     "typescript-library",
     "javascript-library"
   ],
+  "bugs": {
+    "url": "https://github.com/grainlogic/stack/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grainlogic/stack.git"
+  },
+  "homepage": "https://github.com/grainlogic/stack#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "tsc --incremental --watch",
     "prebuild": "rimraf dist",
@@ -22,7 +34,10 @@
     "pretest": "rimraf coverage .nyc_output",
     "test": "nyc --nycrc-path .config/nyc.config.js mocha --config .config/mocha.config.js src/**/*.spec.ts",
     "posttest": "nyc --nycrc-path .config/nyc.config.js --reporter text report && codecov -f coverage/*.json",
-    "test:watch": "mocha --config .config/mocha.config.js  --watch src/**/*.spec.ts"
+    "test:watch": "mocha --config .config/mocha.config.js  --watch src/**/*.spec.ts",
+    "preversion": "yarn run lint && yarn run test",
+    "postversion": "yarn run build && cd dist && npm publish",
+    "postpublish": "git push origin --all; git push origin --tags"
   },
   "devDependencies": {
     "@types/chai": "4.2.12",
@@ -30,7 +45,6 @@
     "@types/node": "10.17.8",
     "chai": "4.2.0",
     "codecov": "3.7.2",
-    "copy": "0.3.2",
     "mocha": "8.0.1",
     "nyc": "15.1.0",
     "rimraf": "3.0.0",
