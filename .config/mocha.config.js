@@ -8,5 +8,7 @@ module.exports = {
   reporter: 'spec',
   slow: 75,
   timeout: 2000,
-  ui: 'tdd'
+  ui: 'tdd',
+  require: 'ts-node/register',
+  project: '../tsconfig.json'
 }
