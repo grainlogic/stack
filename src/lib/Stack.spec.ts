@@ -17,10 +17,11 @@ type AssertIncrDecrBy = <T, K extends keyof T> (
 ) => void
 
 class InternalView implements StackView<number> {
-  pop (): number {
-    return 1;
+  public pop (): number {
+    return 1
   }
-  push (item: number): void {}
+
+  public push (item: number): void {}
 }
 
 let instance: Stack<number>
@@ -122,13 +123,13 @@ describe('class Stack', () => {
     })
 
     it('should return an Array instance if the field is not define (default behavior)', () => {
-      assert.instanceOf(instance.view, Array,'internal representation is not Array')
+      assert.instanceOf(instance.view, Array, 'internal representation is not Array')
     })
 
     it('should return an object with StackView interface if a non-default value is used', () => {
       instance.view = new InternalView()
       assert.notInstanceOf(instance.view, Array, 'internal representation is Array (default behavior)')
-      assert.instanceOf(instance.view, InternalView,'internal representation is not InternalView')
+      assert.instanceOf(instance.view, InternalView, 'internal representation is not InternalView')
     })
   })
 

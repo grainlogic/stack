@@ -19,7 +19,8 @@
     "build": "tsc",
     "postbuild": "ts-node ./build.ts && cp LICENSE README.md dist",
     "lint": "tslint -p tsconfig.json -c tslint.json",
-    "test": "mocha --require ts-node/register --config .config/.mocharc.js --project tsconfig.json --watch src/**/*.spec.ts"
+    "test": "mocha --require ts-node/register --config .config/.mocharc.js --project tsconfig.json src/**/*.spec.ts",
+    "test:watch": "mocha --require ts-node/register --config .config/.mocharc.js --project tsconfig.json --watch src/**/*.spec.ts"
   },
   "devDependencies": {
     "@types/chai": "4.2.12",
