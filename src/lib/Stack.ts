@@ -3,7 +3,8 @@ import {
   ArgumentNullError,
   PropertyAlreadyDefineError,
   StackOverflowError,
-  StackUnderflowError
+  StackUnderflowError,
+  StackDepthNegativeError
 } from './errors'
 
 export class Stack<T> {
@@ -39,6 +40,10 @@ export class Stack<T> {
       throw new ArgumentNullError('deep')
     }
 
+    if (deep < 0) {
+      throw new StackDepthNegativeError()
+    }
+
     this.#deep = deep
     this.#length = 0
   }
@@ -64,6 +69,10 @@ export class Stack<T> {
   }
 
   public clear (): void {
+    if (this.isEmpty) {
+      throw new StackUnderflowError()
+    }
+
     Array(this.#length).fill('').forEach(this.pop.bind(this))
   }
 

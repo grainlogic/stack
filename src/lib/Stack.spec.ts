@@ -2,9 +2,11 @@ import { describe, it, beforeEach } from 'mocha'
 import { assert } from 'chai'
 import { Stack } from './Stack'
 import {
-  ArgumentNullError, PropertyAlreadyDefineError,
+  ArgumentNullError,
+  PropertyAlreadyDefineError,
   StackOverflowError,
-  StackUnderflowError
+  StackUnderflowError,
+  StackDepthNegativeError
 } from './errors'
 import { StackView } from './StackView'
 
@@ -32,9 +34,9 @@ const popOffStack = () => instance.pop()
 const fillStack = size => Array(size).fill('').forEach(pushToStack)
 const clearStack = size => Array(size).fill('').forEach(popOffStack)
 
-describe('class Stack', () => {
+describe('class Stack<T>', () => {
 
-  describe('#constructor() method', () => {
+  describe('Сonstructor(deep: number)', () => {
     beforeEach(() => {
       instance = new Stack<number>(stackDeep)
     })
@@ -43,9 +45,14 @@ describe('class Stack', () => {
       assert.instanceOf(instance, Stack, 'stack instance is not create')
     })
 
-    it('should throw an ArgumentNullError error if parameter is not passed', () => {
+    it('should throw an ArgumentNullError error if parameter "deep" is not passed', () => {
       const createInstance = () => (new (Stack as any)())
       assert.throws(createInstance, ArgumentNullError)
+    })
+
+    it('should throw an StackDepthNegativeError error if parameter "deep" is less than 0', () => {
+      const createInstance = () => new Stack(-10)
+      assert.throws(createInstance, StackDepthNegativeError)
     })
 
     it('stack instance must be empty', () => {
@@ -53,7 +60,7 @@ describe('class Stack', () => {
     })
   })
 
-  describe('#push() method', () => {
+  describe('#push(item: T): void', () => {
     const increasesBy: AssertIncrDecrBy = (assert as any).increasesBy // TODO: update @types/chai definition
 
     beforeEach(() => {
@@ -76,7 +83,7 @@ describe('class Stack', () => {
     })
   })
 
-  describe('#pop() method', () => {
+  describe('#pop(): T', () => {
     const decreasesBy: AssertIncrDecrBy = (assert as any).decreasesBy // TODO: update @types/chai definition
 
     beforeEach(() => {
@@ -105,7 +112,7 @@ describe('class Stack', () => {
     })
   })
 
-  describe('#clear() method', () => {
+  describe('#clear(): void', () => {
     beforeEach(() => {
       instance = new Stack<number>(stackDeep)
     })
@@ -115,9 +122,17 @@ describe('class Stack', () => {
       instance.clear()
       assert.isTrue(instance.isEmpty, 'stack instance is not empty')
     })
+
+    it('should throw an StackUnderflowError error if stack is empty', () => {
+      const clearStack = () => instance.clear()
+
+      fillStack(1)
+      popOffStack()
+      assert.throws(clearStack, StackUnderflowError)
+    })
   })
 
-  describe('#get:view field', () => {
+  describe('#get view(): StackView', () => {
     beforeEach(() => {
       instance = new Stack<number>(stackDeep)
     })
@@ -133,7 +148,7 @@ describe('class Stack', () => {
     })
   })
 
-  describe('#set:view field', () => {
+  describe('#set view(instance: StackView)', () => {
     beforeEach(() => {
       instance = new Stack<number>(stackDeep)
     })
