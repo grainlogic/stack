@@ -36,8 +36,7 @@
     "posttest": "nyc --nycrc-path .config/nyc.config.js --reporter text report && codecov -f coverage/*.json",
     "test:watch": "mocha --config .config/mocha.config.js  --watch src/**/*.spec.ts",
     "preversion": "yarn run lint && yarn run test",
-    "postversion": "yarn run build && cd dist && npm publish",
-    "postpublish": "git push origin --all; git push origin --tags"
+    "postversion": "yarn run build && git push origin --follow-tag && cd dist && npm publish"
   },
   "devDependencies": {
     "@types/chai": "4.2.12",
