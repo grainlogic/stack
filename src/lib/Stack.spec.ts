@@ -35,12 +35,11 @@ const fillStack = size => Array(size).fill('').forEach(pushToStack)
 const clearStack = size => Array(size).fill('').forEach(popOffStack)
 
 describe('class Stack<T>', () => {
+  beforeEach(() => {
+    instance = new Stack<number>(stackDeep)
+  })
 
-  describe('Сonstructor(deep: number)', () => {
-    beforeEach(() => {
-      instance = new Stack<number>(stackDeep)
-    })
-
+  describe('#constructor(deep: number)', () => {
     it('stack instance must be created if pass a parameter', () => {
       assert.instanceOf(instance, Stack, 'stack instance is not create')
     })
@@ -63,10 +62,6 @@ describe('class Stack<T>', () => {
   describe('#push(item: T): void', () => {
     const increasesBy: AssertIncrDecrBy = (assert as any).increasesBy // TODO: update @types/chai definition
 
-    beforeEach(() => {
-      instance = new Stack<number>(stackDeep)
-    })
-
     it('should add an one item to stack if not overflowed', () => {
       assert.doesNotThrow(pushToStack, Error)
       increasesBy(pushToStack, instance, 'size', 1, 'stack size has not increased by one')
@@ -85,10 +80,6 @@ describe('class Stack<T>', () => {
 
   describe('#pop(): T', () => {
     const decreasesBy: AssertIncrDecrBy = (assert as any).decreasesBy // TODO: update @types/chai definition
-
-    beforeEach(() => {
-      instance = new Stack<number>(stackDeep)
-    })
 
     it('should remove an item from stack and return it if stack is not empty', () => {
       const fillCount = 4
@@ -113,10 +104,6 @@ describe('class Stack<T>', () => {
   })
 
   describe('#clear(): void', () => {
-    beforeEach(() => {
-      instance = new Stack<number>(stackDeep)
-    })
-
     it('stack must be empty', () => {
       fillStack(3)
       instance.clear()
@@ -133,10 +120,6 @@ describe('class Stack<T>', () => {
   })
 
   describe('#get view(): StackView', () => {
-    beforeEach(() => {
-      instance = new Stack<number>(stackDeep)
-    })
-
     it('should return an Array instance if the field is not define (default behavior)', () => {
       assert.instanceOf(instance.view, Array, 'internal representation is not Array')
     })
@@ -149,10 +132,6 @@ describe('class Stack<T>', () => {
   })
 
   describe('#set view(instance: StackView)', () => {
-    beforeEach(() => {
-      instance = new Stack<number>(stackDeep)
-    })
-
     it('should throw an ArgumentNullError error if field is assigned an undefined or null', () => {
       const setUndefinedView = () => (instance.view as any) = undefined
       const setNullView = () => (instance.view as any) = null
@@ -166,6 +145,31 @@ describe('class Stack<T>', () => {
 
       setView()
       assert.throws(setView, PropertyAlreadyDefineError)
+    })
+  })
+
+  describe('how iterable object', () => {
+    it('should be iterated through for...of operator', () => {
+      Array(stackDeep).fill('').forEach((_, index) => {
+        instance.push(index)
+      })
+      const forEach = () => {
+        for (const item of instance) {}
+      }
+
+      assert.doesNotThrow(forEach, Error)
+      assert.isTrue(instance.isEmpty, 'stack instance is not empty')
+    })
+
+    it('should be copied into an array with Array.from()', () => {
+      Array(stackDeep).fill('').forEach((_, index) => {
+        instance.push(index)
+      })
+      const arr = Array.from(instance)
+
+      assert.lengthOf(arr, stackDeep, 'array length doesn\'t match stack depth')
+      assert.sameOrderedMembers(arr, [ 4, 3, 2, 1, 0 ], 'member order is not preserved')
+      assert.isTrue(instance.isEmpty, 'stack instance is not empty')
     })
   })
 })

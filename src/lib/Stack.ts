@@ -29,6 +29,18 @@ export class Stack<T> {
     this.#view = instance
   }
 
+  public get size (): number {
+    return this.#length
+  }
+
+  public get isFull (): boolean {
+    return this.#length === this.#deep
+  }
+
+  public get isEmpty (): boolean {
+    return this.#length === 0
+  }
+
   #view: StackView<T>
 
   #length: number
@@ -76,15 +88,9 @@ export class Stack<T> {
     Array(this.#length).fill('').forEach(this.pop.bind(this))
   }
 
-  public get size (): number {
-    return this.#length
-  }
-
-  public get isFull (): boolean {
-    return this.#length === this.#deep
-  }
-
-  public get isEmpty (): boolean {
-    return this.#length === 0
+  public * [Symbol.iterator] (): IterableIterator<T> {
+    while (!this.isEmpty) {
+      yield this.pop()
+    }
   }
 }

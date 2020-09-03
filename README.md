@@ -14,6 +14,8 @@
 An array based stack implementation. Allocation of memory for the stack is lazy during the first call to modifying methods.
 If necessary, you can replace the internal implementation with a more suitable one for your tasks.
 
+Support `for...of` and `Array.from()`
+
 ## API
 
 ### Class Stack\<T\>
