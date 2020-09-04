@@ -9,6 +9,16 @@ import {
 
 export class Stack<T> {
 
+  public static from<T> (array: Array<T>): Stack<T> {
+    const stack = new Stack<T>(array.length)
+
+    for (const item of array) {
+      stack.push(item)
+    }
+
+    return stack
+  }
+
   public get view (): StackView<T> {
     if (this.#view === undefined) {
       this.view = isFinite(this.#deep) ? new Array(this.#deep) : []

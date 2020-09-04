@@ -39,6 +39,30 @@ describe('class Stack<T>', () => {
     instance = new Stack<number>(stackDeep)
   })
 
+  describe('static #from<T>(array: Array<T>): Stack<T>', () => {
+    it('should create a stack from array', () => {
+      const array = [1, 2, 3, 4, 5]
+      const stack = Stack.from(array)
+
+      assert.instanceOf(stack, Stack, 'stack instance is not create')
+    })
+
+    it('stack depth must be equal to the length of array', () => {
+      const array = [1, 2, 3, 4, 5]
+      const stack = Stack.from(array)
+
+      assert.strictEqual(stack.size, array.length, 'stack depth and array length is not equal')
+    })
+
+    it('stack items must be in reverse order', () => {
+      const array = [1, 2, 3, 4, 5]
+      const stack = Stack.from(array)
+      const reversArray = Array.from(stack)
+
+      assert.sameOrderedMembers(array, reversArray.reverse(), 'member order is not reverse')
+    })
+  })
+
   describe('#constructor(deep: number)', () => {
     it('stack instance must be created if pass a parameter', () => {
       assert.instanceOf(instance, Stack, 'stack instance is not create')
